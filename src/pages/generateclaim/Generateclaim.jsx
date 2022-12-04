@@ -5,7 +5,7 @@ import axios from "axios";
 const GenerateClaim = () => {
   const [panno, setPanno] = useState("");
   const [IT, setIT] = useState(true);
-
+  const [offerID, setOfferID] = useState("");
   const generateclaim = () => {
     var config = {
       method: "post",
@@ -32,11 +32,29 @@ const GenerateClaim = () => {
     axios(config)
       .then(function (response) {
         console.log(response);
+        setOfferID(response.data.id);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
+
+  var config2 = {
+    method: "post",
+    url: `https://api-staging.polygonid.com/v1/offers-qrcode/${offerID}`,
+    headers: {
+      // "Content-Type": "application/json",
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzAxODY5NzgsImp0aSI6IjkzZjgyYjZhLTkzNzctNGMzYi1hZDhhLTY0MTEzMzcxYzZmYSIsImlhdCI6MTY3MDEwMDU3OCwibmJmIjoxNjcwMTAwNTc4LCJzdWIiOiIzZDliZTM2OS1iZjE4LTQ4NWItYmY2Ni05Y2FiYmNhZDcwMGIiLCJzY29wZSI6ImFwaSIsImFjY291bnQiOnsidmVyaWZpZWQiOnRydWUsIm9yZ2FuaXphdGlvbiI6IjFjZDc1MzdkLWM4NzctNGFkNi1iZDg4LTcxODZhYWM3OGI3YiIsInJvbGUiOiJPV05FUiIsImVtYWlsIjoicmFodWxiYXJ1YTMxKzRAZ21haWwuY29tIn19.i1elRjQ3vxC-H6H3Dm5DEBtjp5w736DuwzhT8XaUYKA`,
+    },
+  };
+  axios(config2)
+    .then(function (response) {
+      console.log(response);
+      setOfferID(response.data.qrcode);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
   return (
     <div className={styles.wrap}>
